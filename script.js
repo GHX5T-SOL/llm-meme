@@ -24,8 +24,8 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.15 });
 qsa('.reveal').forEach((el) => io.observe(el));
 
-// Chaos collage: place random images around hero
-const collage = qs('#chaos-collage');
+// Random mountain behind hero
+const mountain = qs('#random-mountain');
 const assetPaths = [
   '/random_img1.svg','/random_img2.svg','/random_img3.svg','/random_img4.svg','/random_img5.svg',
   '/random_img6.svg','/random_img7.svg','/random_img8.svg','/random_img9.svg','/random_img10.svg',
@@ -35,32 +35,35 @@ const assetPaths = [
 
 function random(min, max) { return Math.random() * (max - min) + min; }
 
-function spawnCollage() {
-  const count = Math.min(10, assetPaths.length);
-  for (let i = 0; i < count; i++) {
-    const img = document.createElement('img');
-    img.src = assetPaths[Math.floor(Math.random() * assetPaths.length)];
-    img.alt = '';
-    const x = random(5, 95);
-    const y = random(5, 95);
-    const r = random(-25, 25);
-    const s = random(0.6, 1.1);
-    img.style.left = `${x}%`;
-    img.style.top = `${y}%`;
-    img.style.transform = `translate(-50%, -50%) rotate(${r}deg) scale(${s})`;
-    img.style.transition = 'transform 0.6s ease, filter 0.6s ease, opacity 0.6s';
-    collage.appendChild(img);
+function buildMountain() {
+  // Clear previous
+  mountain.innerHTML = '';
+  const width = mountain.clientWidth || window.innerWidth;
+  const layers = 5; // rows from bottom to top
+  let used = 0;
+  for (let layer = 0; layer < layers; layer++) {
+    const rowCount = Math.ceil(assetPaths.length / layers);
+    const yBase = 70 - layer * 10; // percent from top
+    for (let i = 0; i < rowCount && used < assetPaths.length; i++, used++) {
+      const img = document.createElement('img');
+      img.src = assetPaths[used];
+      img.alt = '';
+      const spread = 80 - layer * 8; // narrower at top
+      const left = (width * 0.1) + (i / (rowCount - 1 || 1)) * (width * (spread / 100));
+      const top = yBase + random(-4, 4);
+      const rot = random(-15, 15);
+      const scale = 0.55 + (layer * 0.12) + random(-0.05, 0.08);
+      img.style.left = `${(left / width) * 100}%`;
+      img.style.top = `${top}%`;
+      img.style.transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${scale})`;
+      mountain.appendChild(img);
+    }
   }
 }
-spawnCollage();
+buildMountain();
 
-// Toggle brainrot intensity
-let brainrot = true;
-qs('#chaosToggle').addEventListener('click', () => {
-  brainrot = !brainrot;
-  document.body.style.filter = brainrot ? 'saturate(130%) contrast(105%) hue-rotate(0deg)' : 'saturate(100%) contrast(100%)';
-  qsa('#floaters img').forEach((el) => { el.style.animationPlayState = brainrot ? 'running' : 'paused'; });
-});
+// Rebuild mountain on resize for better fit
+window.addEventListener('resize', () => { buildMountain(); });
 
 // Floating / raining Solana and Illuminati icons
 const floaters = qs('#floaters');
@@ -88,6 +91,28 @@ function spawnFloater() {
 setInterval(spawnFloater, 800);
 for (let i = 0; i < 8; i++) spawnFloater();
 
+// Menu toggle
+const menuToggle = qs('#menuToggle');
+const menuPanel = qs('#menuPanel');
+menuToggle.addEventListener('click', () => {
+  const open = menuToggle.getAttribute('aria-expanded') === 'true';
+  menuToggle.setAttribute('aria-expanded', String(!open));
+  if (open) { menuPanel.hidden = true; } else { menuPanel.hidden = false; }
+});
+
+// Header contract copy
+qs('#contractBtn').addEventListener('click', async () => {
+  const text = qs('#headerContract').textContent.trim();
+  if (!text || text === 'TBD') return;
+  try {
+    await navigator.clipboard.writeText(text);
+    const btn = qs('#contractBtn');
+    const prev = btn.querySelector('.label').textContent;
+    btn.querySelector('.label').textContent = 'Copied!';
+    setTimeout(() => (btn.querySelector('.label').textContent = prev), 900);
+  } catch {}
+});
+
 // Public API to set late links and contract
 window.ILM = {
   setPumpFun(url) {
@@ -99,26 +124,9 @@ window.ILM = {
     links.forEach((a) => { if (!a) return; a.href = url; a.textContent = 'DexScreener'; a.classList.remove('disabled'); a.removeAttribute('aria-disabled'); });
   },
   setContract(address) {
-    const span = qs('#contractValue');
-    const btn = qs('#copyContract');
-    span.textContent = address;
-    btn.disabled = false;
-    btn.title = 'Copy contract address';
+    qs('#headerContract').textContent = address;
   }
 };
 
-qs('#copyContract').addEventListener('click', async () => {
-  const text = qs('#contractValue').textContent.trim();
-  if (!text || text === 'TBD') return;
-  try {
-    await navigator.clipboard.writeText(text);
-    const btn = qs('#copyContract');
-    const prev = btn.textContent;
-    btn.textContent = 'Copied!';
-    setTimeout(() => (btn.textContent = prev), 900);
-  } catch {
-    alert('Copy failed. Please copy manually.');
-  }
-});
 
 

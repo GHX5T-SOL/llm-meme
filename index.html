@@ -31,14 +31,29 @@
           <p>Illuminati Language Model</p>
         </div>
       </div>
-      <nav class="primary-nav">
+      <div class="header-right">
+        <button id="contractBtn" class="contract-pill" type="button" title="Copy contract address">
+          <span class="label">Contract:</span>
+          <span id="headerContract" class="mono">TBD</span>
+        </button>
+        <button id="menuToggle" class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menuPanel">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <nav id="menuPanel" class="menu-panel" hidden>
         <a class="glitchy" href="https://x.com/ILMsolana" target="_blank" rel="noopener">X</a>
         <a class="glitchy" href="https://x.com/i/communities/1961463700008694105" target="_blank" rel="noopener">X Community</a>
         <a class="glitchy" href="https://t.me/ILMsolana" target="_blank" rel="noopener">Telegram</a>
-        <a id="pumpLink" class="cta disabled" href="#" aria-disabled="true" title="Pump.Fun link coming soon">Pump.Fun – soon</a>
-        <a id="dexLink" class="cta disabled" href="#" aria-disabled="true" title="DexScreener link coming soon">DexScreener – soon</a>
+        <a id="pumpLink" class="disabled" href="#" aria-disabled="true" title="Pump.Fun link coming soon">Pump.Fun – soon</a>
+        <a id="dexLink" class="disabled" href="#" aria-disabled="true" title="DexScreener link coming soon">DexScreener – soon</a>
       </nav>
     </header>
+
+    <div class="marquee" role="marquee" aria-label="$ILM ticker">
+      <div class="marquee-inner">
+        <span class="ticker">$ILM • Illuminati Language Model • Solana • Brainrot • Chaos • Vibes • $ILM • Illuminati Language Model • Solana • Brainrot • Chaos • Vibes •</span>
+      </div>
+    </div>
 
     <main>
       <!-- SKY BACKDROP -->
@@ -51,19 +66,9 @@
 
       <!-- HERO -->
       <section class="hero section">
-        <div class="hero-inner">
+        <div class="hero-inner stage">
+          <div id="random-mountain" aria-hidden="true"></div>
           <img class="hero-art parallax" src="/llm_main_hero.svg" alt="$ILM main hero" />
-          <div id="chaos-collage" aria-hidden="true"></div>
-          <div class="ticker-wrap">
-            <span class="ticker">$ILM • Illuminati Language Model • Solana • Brainrot • Chaos • Vibes •</span>
-          </div>
-        </div>
-        <div class="cta-row">
-          <button id="chaosToggle" class="cta primary glitchy" type="button">Toggle Brainrot</button>
-          <div class="contract">
-            <span id="contractValue" class="mono">TBD</span>
-            <button id="copyContract" class="cta" type="button" disabled title="Contract address coming soon">Copy</button>
-          </div>
         </div>
       </section>
 
