@@ -95,9 +95,7 @@ body {
 
 .contract { display: inline-flex; align-items: center; gap: 10px; padding: 6px 10px; background: rgba(255,255,255,.6); border-radius: 10px; }
 
-/* Random mountain behind hero */
-#random-mountain { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
-#random-mountain img { position: absolute; will-change: transform, filter, opacity; filter: drop-shadow(0 8px 24px rgba(0,0,0,.3)); }
+/* Random mountain removed since new hero includes chaos */
 
 /* Floaters layer */
 #floaters { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }

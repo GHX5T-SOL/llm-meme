@@ -24,46 +24,8 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.15 });
 qsa('.reveal').forEach((el) => io.observe(el));
 
-// Random mountain behind hero
-const mountain = qs('#random-mountain');
-const assetPaths = [
-  '/random_img1.svg','/random_img2.svg','/random_img3.svg','/random_img4.svg','/random_img5.svg',
-  '/random_img6.svg','/random_img7.svg','/random_img8.svg','/random_img9.svg','/random_img10.svg',
-  '/random_img11.svg','/random_img12.svg','/random_img13.svg','/random_img14.svg','/random_img15.svg',
-  '/random_img16.svg','/random_img17.svg'
-].filter(Boolean);
-
+// Utility random still needed for floaters
 function random(min, max) { return Math.random() * (max - min) + min; }
-
-function buildMountain() {
-  // Clear previous
-  mountain.innerHTML = '';
-  const width = mountain.clientWidth || window.innerWidth;
-  const layers = 5; // rows from bottom to top
-  let used = 0;
-  for (let layer = 0; layer < layers; layer++) {
-    const rowCount = Math.ceil(assetPaths.length / layers);
-    const yBase = 70 - layer * 10; // percent from top
-    for (let i = 0; i < rowCount && used < assetPaths.length; i++, used++) {
-      const img = document.createElement('img');
-      img.src = assetPaths[used];
-      img.alt = '';
-      const spread = 80 - layer * 8; // narrower at top
-      const left = (width * 0.1) + (i / (rowCount - 1 || 1)) * (width * (spread / 100));
-      const top = yBase + random(-4, 4);
-      const rot = random(-15, 15);
-      const scale = 0.55 + (layer * 0.12) + random(-0.05, 0.08);
-      img.style.left = `${(left / width) * 100}%`;
-      img.style.top = `${top}%`;
-      img.style.transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${scale})`;
-      mountain.appendChild(img);
-    }
-  }
-}
-buildMountain();
-
-// Rebuild mountain on resize for better fit
-window.addEventListener('resize', () => { buildMountain(); });
 
 // Floating / raining Solana and Illuminati icons
 const floaters = qs('#floaters');
