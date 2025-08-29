@@ -53,6 +53,7 @@ body {
 .burger span + span { margin-top: 3px; }
 .menu-panel { position: absolute; right: 12px; top: 58px; background: rgba(255,255,255,.95); border: 1px solid rgba(0,0,0,.06); border-radius: 12px; padding: 10px; display: grid; gap: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.15); }
 .menu-panel a { text-decoration: none; color: var(--ink); font-weight: 800; }
+.menu-panel[hidden] { display: none !important; }
 
 /* Sky */
 .sky { position: fixed; inset: 0; z-index: -1; overflow: hidden; }

@@ -100,6 +100,15 @@ menuToggle.addEventListener('click', () => {
   if (open) { menuPanel.hidden = true; } else { menuPanel.hidden = false; }
 });
 
+// Close menu when clicking outside
+document.addEventListener('click', (evt) => {
+  const target = evt.target;
+  if (!menuPanel.hidden && !menuPanel.contains(target) && !menuToggle.contains(target)) {
+    menuPanel.hidden = true;
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+});
+
 // Header contract copy
 qs('#contractBtn').addEventListener('click', async () => {
   const text = qs('#headerContract').textContent.trim();
